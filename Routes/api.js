@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 
 router.get("/get", (req, res) => {
   try {
@@ -32,9 +33,9 @@ router.get("/get", (req, res) => {
 router.post("/post", (req, res) => {
   const data = {
     id: 1,
-    name: "Kalua",
+    name: "Saroj",
     age: 21,
-    city: "Mathura",
+    city: "Indore",
   };
   res.json(data);
 });
@@ -127,4 +128,8 @@ router.put("/put", (req, res) => {
   }
 });
 
+mongoose.connect("mongodb+srv://rathorenisha397_db_user:FyD450e9i4dRHZyD@userdata.x6f1kdi.mongodb.net/")
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
 module.exports = router;
