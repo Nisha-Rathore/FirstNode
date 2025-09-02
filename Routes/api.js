@@ -1,8 +1,10 @@
-const express = require("express");
-const router = express.Router();
-const mongoose = require("mongoose");
+const express = require("express"); // require express
+const router = express.Router(); // create router instance
+const mongoose = require("mongoose"); // require mongoose
+const User = require("./models/UserModel"); // require User model
 
-router.get("/get", (req, res) => {
+// define routes
+router.get("/list", (req, res) => {
   try {
     const data = {
       id: 1,
@@ -30,7 +32,18 @@ router.get("/get", (req, res) => {
   res.send("Hello Nisha");
 });
 
-router.post("/post", (req, res) => {
+  router.get("/get", (req, res) => {
+  const data = {
+    id: 1,
+    name: "Saroj",
+    age: 21,
+    city: "Indore",
+  };
+  
+  res.json(data);
+});
+
+router.post("/create", (req, res) => {
   const data = {
     id: 1,
     name: "Saroj",
@@ -127,9 +140,11 @@ router.put("/put", (req, res) => {
     });
   }
 });
-
+// connect to MongoDB
 mongoose.connect("mongodb+srv://rathorenisha397_db_user:FyD450e9i4dRHZyD@userdata.x6f1kdi.mongodb.net/")
   .then(() => {
     console.log("Connected to MongoDB");
   })
+
+  // handle connection error
 module.exports = router;
