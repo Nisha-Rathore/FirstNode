@@ -4,8 +4,24 @@ const mongoose = require("mongoose"); // require mongoose
 const User = require("./models/UserModel"); // require User model
 
 // define routes
-router.get("/list", (req, res) => {
+// first part
+router.get("/list",async (req, res) => {
   try {
+    const list = await User.find();
+     res.json({
+      data: data,
+      status: "200",
+      message: "Data fetched successfully",
+      success: true,
+    });
+  } catch (err) {
+    res.json({
+      error: err,
+      status: "500",
+      message: "Internal server error",
+      success: false,
+    });
+  }
     const data = {
       id: 1,
       name: "Nisha",
@@ -15,22 +31,11 @@ router.get("/list", (req, res) => {
       state: "Madhya Pradesh",
       country: "India",
     };
-    res.json({
-      data: data,
-      status: "200",
-      message: "Data fetched successfully",
-      success: true,
-    });
-  } catch (err) {
-    res.json({
-      erroe: err,
-      status: "500",
-      message: "Internal server error",
-      success: false,
-    });
-  }
+   
   res.send("Hello Nisha");
 });
+
+// 2nd part
 
   router.get("/get", (req, res) => {
   const data = {
@@ -43,15 +48,35 @@ router.get("/list", (req, res) => {
   res.json(data);
 });
 
-router.post("/create", (req, res) => {
-  const data = {
-    id: 1,
-    name: "Saroj",
-    age: 21,
-    city: "Indore",
-  };
-  res.json(data);
+// third part
+
+router.post("/create", async(req, res) => {
+try{
+  const user = new User({
+    name: req.body.name,
+    email: req.body.email,
+    age: req.body.age
+  })
+     await user.save();
+     res.json({
+      data: user,
+      status:"201",
+      message:"User created successfully",
+      success:true,
+     }) 
+}catch(err){
+  res.json({
+    error: err,
+    status:"500",
+    message:"Internal server error",
+    success:false,
+  })
+}
 });
+
+
+// fourth part
+
 router.delete("/delete", (req, res) => {
   try {
     const data = [
@@ -114,7 +139,9 @@ router.delete("/delete", (req, res) => {
   }
 });
 
-router.put("/put", (req, res) => {
+// fifth part
+
+router.put("/update",(req, res) => {
   try {
     const data = {
       id: 1,
