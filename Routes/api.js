@@ -4,7 +4,34 @@ const mongoose = require("mongoose"); // require mongoose
 const User = require("./models/UserModel"); // require User model
 
 // define routes
+
 // first part
+router.post("/create", async(req, res) => {
+try{
+  const user = new User({
+    name: req.body.name,
+    email: req.body.email,
+    age: req.body.age
+  })
+     await user.save();
+     res.json({
+      data: user,
+      status:"201",
+      message:"User created successfully",
+      success:true,
+     }) 
+
+}catch(err){
+  res.json({
+    error: err,
+    status:"500",
+    message:"Internal server error",
+    success:false,
+  })
+}
+});
+
+// Second part
 router.get("/list",async (req, res) => {
   try {
     const list = await User.find();
@@ -22,48 +49,20 @@ router.get("/list",async (req, res) => {
       success: false,
     });
   }
-    const data = {
-      id: 1,
-      name: "Nisha",
-      age: 29,
-      city: "Indore",
-      village: "Bargawan",
-      state: "Madhya Pradesh",
-      country: "India",
-    };
-   
-  res.send("Hello Nisha");
 });
 
-// 2nd part
-
-  router.get("/get", (req, res) => {
-  const data = {
-    id: 1,
-    name: "Saroj",
-    age: 21,
-    city: "Indore",
-  };
-  
-  res.json(data);
-});
 
 // third part
-
-router.post("/create", async(req, res) => {
-try{
-  const user = new User({
-    name: req.body.name,
-    email: req.body.email,
-    age: req.body.age
-  })
-     await user.save();
-     res.json({
-      data: user,
+router.get("/details",async(req,res) => {
+  try{
+    const detail = await User.findById(res.body.id);
+ res.json({
+      data: detail,
       status:"201",
       message:"User created successfully",
       success:true,
      }) 
+
 }catch(err){
   res.json({
     error: err,
@@ -72,14 +71,14 @@ try{
     success:false,
   })
 }
-});
-
+})
 
 // fourth part
 
 router.delete("/delete", (req, res) => {
+
   try {
-    const data = [
+    const data=[
       {
         id: 1,
         name: "John Doe",

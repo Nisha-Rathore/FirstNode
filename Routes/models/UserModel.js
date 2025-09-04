@@ -1,4 +1,4 @@
-const e = require("express");
+const express = require("express");
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -10,5 +10,7 @@ const userSchema = new mongoose.Schema({
     // country:{type: String, required:true, default:"India"},
     // date:{type: Date, default: Date.now}
 
+},{
+    timestamps:true
 })
 module.exports = mongoose.model("User", userSchema);
