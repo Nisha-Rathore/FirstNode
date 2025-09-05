@@ -73,88 +73,59 @@ router.get("/details",async(req,res) => {
 }
 })
 
+
 // fourth part
+router.get("/detailsbyemail",async(req,res) => {
+  try{
+    const detail = await User.findOne({email:res.body.email});
+ res.json({
+      data: detail,
+      status:"201",
+      message:"User created successfully",
+      success:true,
+     }) 
 
-router.delete("/delete", (req, res) => {
+}catch(err){
+  res.json({
+    error: err,
+    status:"500",
+    message:"Internal server error",
+    success:false,
+  })
+}
+})
 
-  try {
-    const data=[
-      {
-        id: 1,
-        name: "John Doe",
-        age: 30,
-        city: "New York",
-        country: "USA",
-      },
-      {
-        id: 2,
-        name: "Jane Smith",
-        age: 25,
-        city: "Los Angeles",
-        country: "USA",
-      },
-      {
-        id: 3,
-        name: "Sam Brown",
-        age: 28,
-        city: "Chicago",
-        country: "USA",
-      },
-      {
-        id: 4,
-        name: "Lucy Green",
-        age: 22,
-        city: "Houston",
-        country: "USA",
-      },
-      {
-        id: 5,
-        name: "Mike White",
-        age: 35,
-        city: "Phoenix",
-        country: "USA",
-      },
-      {
-        id: 6,
-        name: "Emma Black",
-        age: 27,
-        city: "Philadelphia",
-        country: "USA",
-      },
-    ];
+// fourth part
+ router.delete("/delete/:user_id",async (req,res) =>{
+  try{
+    const detail = await User.findByIdAndDelete(req.body.user_id);
     res.json({
-      data: data,
-      status: "200",
-      message: "Data featched succcessfully",
-      success: true,
-    });
-  } catch (error) {
+      data: detail,
+      status:"200",
+      message:"User deleted successfully",
+      success:true,
+    })
+  } catch(err) {
     res.json({
-      error: error,
-      status: "500",
-      message: "Internal server error",
-      success: false,
-    });
+    error: err,
+    status:"500",
+    message:"Internal server error",
+    success:false,
+  })
+}
   }
-});
+  
+ )
 
 // fifth part
 
-router.put("/update",(req, res) => {
+router.put("/update/:user_id",async (req, res) => {
   try {
-    const data = {
-      id: 1,
-      name: "Nisha",
-      age: 29,
-      city: "Indore",
-      village: "Bargawan",
-      state: "Madhya Pradesh",
-      country: "India",
-    };
+   const update = await User.findByIdAndUpdate(req.params.user_id, req.body, {new:true})
     res.json({
-      data: data,
+      data: update,
       status: "200",
-      message: "Data fetched successfully",
+      message: "Data updated successfully",
       success: true,
     });
   } catch (err) {
